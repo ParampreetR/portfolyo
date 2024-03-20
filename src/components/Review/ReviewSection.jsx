@@ -5,7 +5,7 @@ import Carousel from "../Slider/Carousel";
 import Preloader from "../Preloader/Preloader";
 
 const Review = ({ data }) => {
-  return !data ? (
+  return !data || data.informations.length == 0 ? (
     <div />
   ) : (
     <section className="st-dark-bg">

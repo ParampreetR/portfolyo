@@ -5,7 +5,7 @@ import Carousel from "../Slider/Carousel";
 import Preloader from "../Preloader/Preloader";
 
 const Blog = ({ data }) => {
-  return !data ? (
+  return !data || data.informations.length == 0 ? (
     <div />
   ) : (
     <section id="blog">

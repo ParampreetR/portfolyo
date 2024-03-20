@@ -47,7 +47,9 @@ const PortfolioSection = ({ data }) => {
     }
   };
 
-  return (
+  return data.portfolioItems.length == 0 ? (
+    <div />
+  ) : (
     <>
       <section id="portfolio">
         <div className="st-height-b100 st-height-lg-b80"></div>

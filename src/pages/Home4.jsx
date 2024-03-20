@@ -10,6 +10,7 @@ import PortfolioSection from "../components/Protfolio/PortfolioSection";
 import Hero4 from "../components/Hero/Hero4";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import YouTubeBox from "../components/YouTube/YouTubeBox";
 
 const Home4 = ({ userData }) => {
   const {
@@ -32,6 +33,7 @@ const Home4 = ({ userData }) => {
       <About data={userData.aboutData} data-aos="fade-right" />
       <Iconbox data={userData.serviceData} data-aos="fade-right" />
       <Skill data={userData.skillData} data-aos="fade-right" />
+      <YouTubeBox data={userData.youTubeData} data-aos="fade-right" />
       <Resume data={userData.resumeData} />
       <PortfolioSection data={userData.portfolioData} data-aos="fade-right" />
       <ReviewSection data={userData.reviewData} data-aos="fade-right" />

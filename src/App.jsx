@@ -32,12 +32,18 @@ function App() {
         let portfolioItems = [];
         let reviewInformation = [];
         let blogInformation = [];
+        let youTubeData = [];
 
         // Iterate through social handles in response to store them
         // into array in proper format required by Social Links Component
+        // Sequence not found in Social handles
         for (let i = 0; i < response.data.user.social_handles.length; i++) {
+          if (!response.data.user.social_handles[i].enabled) {
+            continue;
+          }
           // console.log(response.data.user.social_handles[i].image.url);
           socialLinks.push({
+            id: response.data.user.social_handles[i]._url,
             icon: response.data.user.social_handles[i].image.url,
             title: response.data.user.social_handles[i].platform,
             link: response.data.user.social_handles[i].url,
@@ -47,53 +53,84 @@ function App() {
         // Iterate through services in response to store them
         // into array in proper format required by IconBox Component
         for (let i = 0; i < response.data.user.services.length; i++) {
+          if (!response.data.user.services[i].enabled) {
+            continue;
+          }
+
           servicesData.push({
             imgLink: response.data.user.services[i].image.url,
             title: response.data.user.services[i].name,
             text: response.data.user.services[i].desc,
+            price: response.data.user.services[i].charge,
             effect: "zoom-out-up",
             duration: "500",
             delay: (i + 2) * 100,
+            id: response.data.user.services[i]._id,
+            sequence: response.data.user.services[i].sequence,
           });
         }
+        servicesData = servicesData.sort((a, b) => a.sequence - b.sequence);
+
         // Iterate through skills in response to store them
         // into array in proper format required by Skills Component
         for (let i = 0; i < response.data.user.skills.length; i++) {
+          if (!response.data.user.skills[i].enabled) {
+            continue;
+          }
           skillData.push({
             title: response.data.user.skills[i].name,
             progress: response.data.user.skills[i].percentage,
             effect: "fade-up",
             duration: "500",
             delay: (i + 2) * 100,
+            sequence: response.data.user.skills[i].sequence,
+            id: response.data.user.skills[i]._id,
           });
         }
+
+        skillData = skillData.sort((a, b) => a.sequence - b.sequence);
 
         // Iterate through social handles in response to store them
         // into array in proper format required by Social Links Component
         for (let i = 0; i < response.data.user.timeline.length; i++) {
+          if (!response.data.user.timeline[i].enabled) {
+            continue;
+          }
+
           // note: I haven't found single item in response that has "forEducation" set true
           // So I assumed the format for education data
           if (response.data.user.timeline[i].forEducation) {
             education.push({
+              id: response.data.user.timeline[i]._id,
               title: response.data.user.timeline[i].jobTitle,
               duration: `${response.data.user.timeline[i].startDate} - ${response.data.user.timeline[i].endDate}`,
               subTitle: response.data.user.timeline[i].company_name,
               text: response.data.user.timeline[i].summary,
+              sequence: response.data.user.timeline[i].sequence,
             });
           } else {
             workExperience.push({
+              id: response.data.user.timeline[i]._id,
               title: response.data.user.timeline[i].jobTitle,
               duration: `${response.data.user.timeline[i].startDate} - ${response.data.user.timeline[i].endDate}`,
               subTitle: response.data.user.timeline[i].company_name,
               text: response.data.user.timeline[i].summary,
+              sequence: response.data.user.timeline[i].sequence,
             });
           }
         }
 
+        workExperience = workExperience.sort((a, b) => a.sequence - b.sequence);
+        education = education.sort((a, b) => a.sequence - b.sequence);
+
         // Iterate through portfolio in response to store them
         // into array in proper format required by PortfolioSection Component
         for (let i = 0; i < response.data.user.projects.length; i++) {
+          if (!response.data.user.projects[i].enabled) {
+            continue;
+          }
           portfolioItems.push({
+            id: response.data.user.projects[i]._id,
             imgLink: response.data.user.projects[i].image.url,
             imgLinkLg: response.data.user.projects[i].image.url,
             title: response.data.user.projects[i].title,
@@ -101,13 +138,19 @@ function App() {
             effect: "fade-up",
             duration: "500",
             delay: (i + 2) * 100,
+            sequence: response.data.user.projects[i].sequence,
           });
         }
+        portfolioItems = portfolioItems.sort((a, b) => a.sequence - b.sequence);
 
         // Iterate through Testimonials in response to store them
         // into array in proper format required by Testimonials Component
         for (let i = 0; i < response.data.user.testimonials.length; i++) {
+          if (!response.data.user.testimonials[i].enabled) {
+            continue;
+          }
           reviewInformation.push({
+            id: response.data.user.testimonials[i]._id,
             imgLink: response.data.user.testimonials[i].image.url,
             title: response.data.user.testimonials[i].name,
             text: response.data.user.testimonials[i].review,
@@ -115,10 +158,29 @@ function App() {
           });
         }
 
+        // Iterate through Testimonials in response to store them
+        // into array in proper format required by Testimonials Component
+        for (let i = 0; i < response.data.user.youtube.length; i++) {
+          if (!response.data.user.youtube[i].enabled) {
+            continue;
+          }
+          youTubeData.push({
+            embedId: response.data.user.youtube[i].embedId,
+            id: response.data.user.youtube[i]._id,
+            sequence: response.data.user.youtube[i].sequence,
+          });
+        }
+
+        youTubeData = youTubeData.sort((a, b) => a.sequence - b.sequence);
+
         // note: I haven't found the blogs in response so I assume the format
         if (response.data.user.blogs) {
           for (let i = 0; i < response.data.user.blogs.length; i++) {
+            if (!response.data.user.blogs[i].enabled) {
+              continue;
+            }
             blogInformation.push({
+              id: response.data.user.blogs[i]._id,
               imgLink: response.data.user.blogs[i].image.url,
               title: response.data.user.blogs[i].name,
               date: response.data.user.blogs[i].date,
@@ -240,6 +302,7 @@ function App() {
             },
             informations: blogInformation,
           },
+          youTubeData: youTubeData,
         });
       })
       .catch((err) => {

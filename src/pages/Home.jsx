@@ -6,6 +6,7 @@ import Resume from "../components/Resume/ResumeSection";
 import BlogSection from "../components/Blog/BlogSection";
 import ReviewSection from "../components/Review/ReviewSection";
 import Contact from "../components/Contact/Contact";
+import YouTubeBox from "../components/YouTube/YouTubeBox";
 import PortfolioSection from "../components/Protfolio/PortfolioSection";
 import Hero from "../components/Hero/Hero";
 import axios from "axios";
@@ -34,6 +35,7 @@ const Home = ({ userData }) => {
       <About data={userData.aboutData} data-aos="fade-right" />
       <Iconbox data={userData.serviceData} data-aos="fade-right" />
       <Skill data={userData.skillData} data-aos="fade-right" />
+      <YouTubeBox data={userData.youTubeData} data-aos="fade-right" />
       <Resume data={userData.resumeData} />
       <PortfolioSection data={userData.portfolioData} data-aos="fade-right" />
       <ReviewSection data={userData.reviewData} data-aos="fade-right" />

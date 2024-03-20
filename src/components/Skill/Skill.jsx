@@ -5,7 +5,7 @@ import Preloader from "../Preloader/Preloader";
 
 const Skill = ({ data }) => {
   // const { title, text, skills } = data;
-  return !data ? (
+  return !data || data.skills.length == 0 ? (
     <div />
   ) : (
     <section className="st-dark-bg">
